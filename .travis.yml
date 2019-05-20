@@ -17,6 +17,7 @@ before_deploy:
   - npm install --production
   - npm run package
 deploy:
+  - provider: releases
   - pip install --user awscli 
   - eval $(aws ecr get-login --region eu-west-1 --no-include-email)
   - docker build -t test .
