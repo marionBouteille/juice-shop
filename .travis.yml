@@ -20,16 +20,7 @@ before_deploy:
 deploy:
   - provider: releases
     overwrite: true
-    api_key:
-      secure: fHybcH65ZdS5ITVKH2tIVBITVSiRQJ1AuWqLP16gyAz5pdmWbLM5gA/74zCozanRmuB+7pGFbhDNm075JWoEDVrWSFDLnNiXvfgUYa4oVEiWZlLvOfSARaU3AQPlVvFVhIbG9SA5IEwTtNFbyHjqLjGn/DSBpiIDqqxhF57vw7Q=
-    file: dist/*
-    skip_cleanup: true
-    file_glob: true
-    draft: true
-    tag_name: "$TRAVIS_TAG"
-    on:
-      repo: bkimminich/juice-shop
-      tags: true
+    
   - pip install --user awscli 
   - eval $(aws ecr get-login --region eu-west-1 --no-include-email)
   - docker build -t juice-shop .
