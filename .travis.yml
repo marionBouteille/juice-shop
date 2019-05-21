@@ -1,30 +1,19 @@
 language: node_js
 node_js:
-  - 10
-stages:
- # - lint
- # - test
- # - integration
- #- e2e
- # - deploy
- 
+  - 11
+
 env:
  - IMAGE_NAME=432782038415.dkr.ecr.eu-west-1.amazonaws.com/juice-shop:1.0-$TRAVIS_BUILD_NUMBER
- 
-install: if [ -z "$TRAVIS_TAG" ]; then npm install; fi
-script: if [ -z "$TRAVIS_TAG" ]; then NODE_ENV=test npm test; fi
-  
-before_deploy:
-  - rm -rf node_modules
-  - rm -rf frontend/node_modules
-  - npm install --production
-  - npm run package
-  
-after_success:   
-  - pip install --user awscli 
+services:
+  - docker
+
+script:
+  - echo 'Use Docker!'
+
+after_success:
+  - pip install --user awscli
   - eval $(aws ecr get-login --region eu-west-1 --no-include-email)
-  - docker build -t juice-shop .
-  - docker tag juice-shop $IMAGE_NAME
+  - docker build -t $IMAGE_NAME .
   - docker push $IMAGE_NAME
-  - aws cloudformation deploy --template-file ./ecs-task.yaml --stack-name juice-task --region eu-west-1 --parameter-override ImageName=$IMAGE_NAME
-  - aws cloudformation update-stack --template-body file://./ecs-task.yaml --stack-name juice-task --region eu-west-1 --parameters "ParameterKey=ImageName,ParameterValue=$IMAGE_NAME"
+  - aws cloudformation deploy --template-file ./ecs-task.yaml --stack-name ecs-deployment --region eu-west-1 --parameter-override ImageName=$IMAGE_NAME
+  - aws cloudformation update-stack --template-body file://./ecs-task.yaml --stack-name ecs-deployment --region eu-west-1 --parameters "ParameterKey=ImageName,ParameterValue=$IMAGE_NAME"
