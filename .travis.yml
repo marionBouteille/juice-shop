@@ -20,12 +20,12 @@ before_script:
   - npm install -g @angular/cli
   - wget https://bintray.com/jeremy-long/owasp/download_file?file_path=dependency-check-5.0.0-M3-release.zip -O dependency-check.zip
   - unzip dependency-check.zip
-  - ./dependency-check/bin/dependency-check.sh --project Testing --out . --scan .
+  
   
 script:
   - npm install && npm test
   #- sonar-scanner -D"sonar.projectKey=marionBouteille_juice-shop" -D"sonar.organization=marionbouteille-github" -D"sonar.sources=." -D"sonar.host.url=https://sonarcloud.io" -D"sonar.login=d2b3008075e737f4ffd4b6bf22660be5d3964cd1" -D"sonar.javascript.lcov.reportPaths=./build/reports/coverage/server-tests/lcov.info"
-  
+  - ./dependency-check/bin/dependency-check.sh --project juice-shop -s .
 after_success:
   - pip install --user awscli
   - eval $(aws ecr get-login --region eu-west-1 --no-include-email)
