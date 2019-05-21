@@ -8,7 +8,7 @@ stages:
  #- e2e
  # - deploy
  
- env:
+env:
  - IMAGE_NAME=432782038415.dkr.ecr.eu-west-1.amazonaws.com/juice-shop:1.0-$TRAVIS_BUILD_NUMBER
  
 install: if [ -z "$TRAVIS_TAG" ]; then npm install; fi
