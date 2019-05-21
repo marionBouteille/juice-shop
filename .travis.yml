@@ -1,3 +1,4 @@
+dist: trusty
 language: node_js
 node_js:
   - 11
@@ -6,14 +7,20 @@ env:
  - IMAGE_NAME=432782038415.dkr.ecr.eu-west-1.amazonaws.com/juice-shop:1.0-$TRAVIS_BUILD_NUMBER
 services:
   - docker
-
+addons:
+  sonarcloud:
+    organization: "marionbouteille-github"
+    token:
+      secure: "$SONAR_TOKEN" # encrypted value of your token
 script:
   - echo 'Use Docker!'
+  - sonar-scanner
 
 after_success:
   - pip install --user awscli
   - eval $(aws ecr get-login --region eu-west-1 --no-include-email)
   - docker build -t $IMAGE_NAME .
   - docker push $IMAGE_NAME
-  - aws cloudformation deploy --template-file ./ecs-task.yaml --stack-name ecs-deployment --region eu-west-1 --parameter-override ImageName=$IMAGE_NAME
-  - aws cloudformation update-stack --template-body file://./ecs-task.yaml --stack-name ecs-deployment --region eu-west-1 --parameters "ParameterKey=ImageName,ParameterValue=$IMAGE_NAME"
+  #- aws cloudformation deploy --template-file ./ecs-task.yaml --stack-name ecs-deployment --region eu-west-1 --parameter-override ImageName=$IMAGE_NAME
+  #- aws cloudformation update-stack --template-body file://./ecs-task.yaml --stack-name ecs-deployment --region eu-west-1 --parameters "ParameterKey=ImageName,ParameterValue=$IMAGE_NAME"
+  
