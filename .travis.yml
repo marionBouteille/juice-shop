@@ -18,8 +18,8 @@ before_deploy:
   - rm -rf frontend/node_modules
   - npm install --production
   - npm run package
-deploy:
-    
+  
+after_success:   
   - pip install --user awscli 
   - eval $(aws ecr get-login --region eu-west-1 --no-include-email)
   - docker build -t juice-shop .
