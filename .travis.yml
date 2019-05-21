@@ -14,7 +14,7 @@ addons:
       secure: "$SONAR_TOKEN" # encrypted value of your token
 script:
   - echo 'Use Docker!'
-  - sonar-scanner -D"sonar.projectKey=marionBouteille_juice-shop" -D"sonar.organization=marionbouteille-github" -D"sonar.sources=." -D"sonar.host.url=https://sonarcloud.io" -D"sonar.login=d2b3008075e737f4ffd4b6bf22660be5d3964cd1"
+  - sonar-scanner -D"sonar.projectKey=marionBouteille_juice-shop" -D"sonar.organization=marionbouteille-github" -D"sonar.sources=." -D"sonar.host.url=https://sonarcloud.io" -D"sonar.login=d2b3008075e737f4ffd4b6bf22660be5d3964cd1" -D"sonar.javascript.lcov.reportPaths=./build/reports/coverage/server-tests/lcov.info"
 
 after_success:
   - pip install --user awscli
