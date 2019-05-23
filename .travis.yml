@@ -12,12 +12,12 @@ addons:
     organization: "marionbouteille-github"
     token:
       secure: "$SONAR_TOKEN" # encrypted value of your token
-  artifacts:
-    s3_region: "eu-west-1"
+  artifacts: true
+    
     
       
 before_script:
-  - npm install -g @angular/cli
+  #- npm install -g @angular/cli
   - wget https://bintray.com/jeremy-long/owasp/download_file?file_path=dependency-check-5.0.0-M3-release.zip -O dependency-check.zip
   - unzip dependency-check.zip
   
