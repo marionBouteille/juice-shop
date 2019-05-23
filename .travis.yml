@@ -12,7 +12,9 @@ addons:
     organization: "marionbouteille-github"
     token:
       secure: "$SONAR_TOKEN" # encrypted value of your token
-  artifacts: true
+  artifacts: 
+    s3_region: "eu-west-1"
+    working_dir: out
     
     
       
@@ -25,7 +27,7 @@ before_script:
 script:
   - npm install && npm test
   #- sonar-scanner -D"sonar.projectKey=marionBouteille_juice-shop" -D"sonar.organization=marionbouteille-github" -D"sonar.sources=." -D"sonar.host.url=https://sonarcloud.io" -D"sonar.login=d2b3008075e737f4ffd4b6bf22660be5d3964cd1" -D"sonar.javascript.lcov.reportPaths=./build/reports/coverage/server-tests/lcov.info"
-  - ./dependency-check/bin/dependency-check.sh --project juice-shop -s .
+  - ./dependency-check/bin/dependency-check.sh --project juice-shop --out ./out --scan .
 after_success:
   - pip install --user awscli
   - eval $(aws ecr get-login --region eu-west-1 --no-include-email)
