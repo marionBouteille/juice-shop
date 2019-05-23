@@ -14,7 +14,8 @@ addons:
       secure: "$SONAR_TOKEN" # encrypted value of your token
   artifacts: 
     s3_region: "eu-west-1"
-    working_dir: out
+    paths:
+    - ./out
     
     
       
